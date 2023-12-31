@@ -80,8 +80,10 @@ const Home = () => {
 				</div>
 			)}
 			{buffer && !loading && (
-				<div className='relative h-full w-full border-2'>
-					<Viewer />
+				<div className='relative flex h-full w-full flex-col'>
+					<div className='min-h-[80vh] xl:h-full'>
+						<Viewer />
+					</div>
 					<ModelDetails />
 				</div>
 			)}
