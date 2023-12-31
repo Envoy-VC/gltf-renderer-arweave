@@ -7,7 +7,6 @@ import { useAsset } from '~/stores/use-asset';
 
 const Model = () => {
 	const { scene } = useAsset();
-	console.log(scene);
 
 	const ref = React.useRef();
 
