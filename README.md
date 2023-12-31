@@ -4,7 +4,7 @@ This is a simple renderer for GLTF files that is hosted on Arweave. It uses `rea
 
 # Video Demo
 
-[![Video Demo](https://youtu.be/WsNlIXk6NXA)](https://www.youtube.com/watch?v=WsNlIXk6NXA)
+[![GLTF Renderer Arweave](https://i.ytimg.com/vi/WsNlIXk6NXA/maxresdefault.jpg)](https://www.youtube.com/watch?v=WsNlIXk6NXA 'GLTF Renderer Arweave')
 
 ## Try it Out
 
