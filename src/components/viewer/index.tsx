@@ -1,9 +1,27 @@
-import React, { startTransition } from 'react';
+import React, { startTransition, SuspenseProps } from 'react';
 import { Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, extend, Object3DNode } from '@react-three/fiber';
 import { OrbitControls, Stage } from '@react-three/drei';
 
+extend({
+	Suspense,
+});
+
+declare module '@react-three/fiber' {
+	interface ThreeElements {
+		customElement: Object3DNode<SuspenseProps, typeof Suspense>;
+	}
+}
+
 import { useAsset } from '~/stores/use-asset';
+
+function Fallback() {
+	return (
+		<h1 className='flex h-screen w-full flex-col items-center justify-center'>
+			<div className='text-2xl font-bold'>Loading...</div>
+		</h1>
+	);
+}
 
 const Model = () => {
 	const { scene } = useAsset();
@@ -20,14 +38,14 @@ const Model = () => {
 	}, [scene]);
 
 	return (
-		<Canvas
-			gl={{ preserveDrawingBuffer: true }}
-			shadows
-			dpr={[1, 1.5]}
-			camera={{ position: [0, 0, 150], fov: 50 }}
-		>
-			<ambientLight intensity={0.25} />
-			<Suspense fallback={null}>
+		<Suspense fallback={<Fallback />}>
+			<Canvas
+				gl={{ preserveDrawingBuffer: true }}
+				shadows
+				dpr={[1, 1.5]}
+				camera={{ position: [0, 0, 150], fov: 40 }}
+			>
+				<ambientLight intensity={0.25} />
 				<Stage
 					// @ts-ignore
 					controls={ref}
@@ -40,13 +58,14 @@ const Model = () => {
 				>
 					<primitive object={scene} />
 				</Stage>
-			</Suspense>
-			<OrbitControls
-				// @ts-ignore
-				ref={ref}
-				autoRotate={true}
-			/>
-		</Canvas>
+
+				<OrbitControls
+					// @ts-ignore
+					ref={ref}
+					autoRotate={false}
+				/>
+			</Canvas>
+		</Suspense>
 	);
 };
 

@@ -26,11 +26,17 @@ if (typeof window !== 'undefined') {
 		.setMeshoptDecoder(MeshoptDecoder);
 }
 
+interface Tag {
+	name: string;
+	value: string;
+}
+
 interface State {
 	fileName: string;
 	buffer: ArrayBuffer;
 	animations: boolean;
 	scene: any | null;
+	tags: Tag[];
 }
 
 interface Actions {
@@ -39,6 +45,7 @@ interface Actions {
 	setAnimations: (animations: boolean) => void;
 	setScene: (scene: any) => void;
 	generateScene: () => Promise<void>;
+	setTags: (tags: Tag[]) => void;
 	reset: () => void;
 }
 
@@ -48,6 +55,7 @@ export const useAsset = create<State & Actions>((set, get) => ({
 	textFile: '',
 	animations: false,
 	scene: null,
+	tags: [],
 	setFileName: (fileName: string) => {
 		set({ fileName });
 	},
@@ -72,12 +80,16 @@ export const useAsset = create<State & Actions>((set, get) => ({
 
 		if (!get().scene) set({ scene: result.scene });
 	},
+	setTags: (tags: Tag[]) => {
+		set({ tags });
+	},
 	reset: () => {
 		set({
 			fileName: '',
 			buffer: new ArrayBuffer(0),
 			animations: false,
 			scene: null,
+			tags: [],
 		});
 	},
 }));

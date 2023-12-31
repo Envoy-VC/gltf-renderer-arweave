@@ -23,6 +23,7 @@ export const verifyTx = async (tx: string) => {
 		);
 
 		if (!hasTags) throw new Error('Content-Type not found');
+		return json.tags;
 	} catch (error: any) {
 		if (error.message === 'Content-Type not found') throw error;
 		else throw new Error('Invalid Transaction ID');
