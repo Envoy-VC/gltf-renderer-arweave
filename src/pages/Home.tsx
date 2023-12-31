@@ -44,9 +44,9 @@ const Home = () => {
 					setLoading(false);
 				};
 				reader.readAsArrayBuffer(file);
-			} catch (error) {
+			} catch (error: any) {
 				setBuffer(new ArrayBuffer(0));
-				setError(String(error));
+				setError(String(error.message));
 				setLoading(false);
 				console.log(error);
 			}
@@ -57,7 +57,7 @@ const Home = () => {
 
 	return (
 		<div className='flex h-screen w-full flex-col items-center justify-center'>
-			{error && <div className='text-red-500'>{error}</div>}
+			{error && <div className='text-2xl text-red-500'>{error}</div>}
 			{!error && loading && (
 				<div className='flex w-full max-w-sm flex-row items-center gap-2'>
 					<Progress value={parseInt(progress)} />

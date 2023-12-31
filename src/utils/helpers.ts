@@ -7,7 +7,7 @@ interface Transaction {
 
 export const verifyTx = async (tx: string) => {
 	try {
-		const res = await fetch(`https://node2.irys.xyz/tx/${tx}`);
+		const res = await fetch(`https://gateway.irys.xyz/tx/${tx}`);
 
 		const json = (await res.json()) as Transaction;
 
@@ -23,8 +23,9 @@ export const verifyTx = async (tx: string) => {
 		);
 
 		if (!hasTags) throw new Error('Content-Type not found');
-	} catch (error) {
-		throw new Error('Invalid Transaction ID');
+	} catch (error: any) {
+		if (error.message === 'Content-Type not found') throw error;
+		else throw new Error('Invalid Transaction ID');
 	}
 };
 
