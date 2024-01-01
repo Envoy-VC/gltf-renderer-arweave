@@ -7,9 +7,29 @@ interface Transaction {
 
 export const verifyTx = async (tx: string) => {
 	try {
-		const res = await fetch(`https://gateway.irys.xyz/tx/${tx}`);
+		const res = await fetch(`https://arweave.net/graphql`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				query: `
+					query ($id: ID!) {
+						transaction(id: $id) {
+							tags {
+								name
+								value
+							}
+						}
+					}
+				`,
+				variables: {
+					id: tx,
+				},
+			}),
+		});
 
-		const json = (await res.json()) as Transaction;
+		const json = (await res.json())?.data?.transaction as Transaction;
 
 		const requiredTags = [
 			{
@@ -41,7 +61,7 @@ export const downloadFile = async ({
 	onProgress,
 	setFile,
 }: DownloadProps) => {
-	const url = `https://gateway.irys.xyz/${tx}`;
+	const url = `https://arweave.net/${tx}`;
 	const res = await fetch(url).then((response) => {
 		const total = parseInt(response.headers.get('content-length') ?? '0');
 		let downloaded = 0;
